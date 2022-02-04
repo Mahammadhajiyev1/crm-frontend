@@ -4,7 +4,7 @@ import { Table } from "react-bootstrap";
 import PropsTypes from "prop-types";
 
 export const TicketTable = ({ tickets }) => {
-  // if (tickets.length)
+  if (!tickets.length) return null;
   return (
     <Table striped bordered hover>
       <thead>

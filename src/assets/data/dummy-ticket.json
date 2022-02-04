@@ -3,7 +3,24 @@
     "id": "1",
     "subject": "email issue",
     "status": "client respose pending",
-    "addedData": "2022.22.22"
+    "addedData": "2022.22.22",
+    "history": [
+      {
+        "date": "2022:10:10",
+        "message": "adadv",
+        "messageBy": "client"
+      },
+      {
+        "date": "2022:10:10",
+        "message": "adadv",
+        "messageBy": "operator"
+      },
+      {
+        "date": "2022:10:10",
+        "message": "adadv",
+        "messageBy": "client"
+      }
+    ]
   },
   {
     "id": "2",
