@@ -1,8 +1,10 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 // import tickets from "../../assets/data/dummy-ticket.json";
+import PropsTypes from "prop-types";
 
 export const TicketTable = ({ tickets }) => {
+  // if (tickets.length)
   return (
     <Table striped bordered hover>
       <thead>
@@ -35,4 +37,8 @@ export const TicketTable = ({ tickets }) => {
       )}
     </Table>
   );
+};
+
+TicketTable.prototype = {
+  ticket: PropsTypes.array.isRequired,
 };
