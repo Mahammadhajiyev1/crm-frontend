@@ -25,7 +25,7 @@ export const AddTicket = () => {
       ...formData,
       [name]: value,
     });
-    console.log(name, value);
+    // console.log(name, value);
   };
   const handleOnSubmit = async (e) => {
     e.preventDefault();

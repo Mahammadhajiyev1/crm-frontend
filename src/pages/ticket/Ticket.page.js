@@ -4,12 +4,17 @@ import { BreadCrumb } from "../../component/breadcrumb/BreadCrumb.comp";
 import tickets from "../../assets/data/dummy-ticket.json";
 import { MessageHistory } from "../../component/message-history/MessageHistory.comp";
 import { UpdateTicket } from "../../component/update-ticket/UpdateTicket.comp";
+import { useParams } from "react-router-dom";
 
-const ticket = tickets[0];
+// const ticket = tickets[0];
 
 export const Ticket = () => {
+  const { tId } = useParams();
   const [message, setMessage] = useState("");
-  useEffect(() => {}, [message]);
+  const [ticket, setTicket] = useState("");
+  useEffect(() => {
+    tickets.map((ticket) => ticket.id == tId && setTicket(ticket));
+  }, [message, tId]);
 
   const handleOnChange = (e) => {
     setMessage(e.target.value);
@@ -38,7 +43,7 @@ export const Ticket = () => {
       </Row>
       <Row className='mt-4'>
         <Col>
-          <MessageHistory message={ticket.history} />
+          {ticket.history && <MessageHistory message={ticket.history} />}
         </Col>
       </Row>
       <hr />

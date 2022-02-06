@@ -2,6 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 // import tickets from "../../assets/data/dummy-ticket.json";
 import PropsTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 export const TicketTable = ({ tickets }) => {
   if (!tickets.length) return null;
@@ -20,7 +21,10 @@ export const TicketTable = ({ tickets }) => {
           <tbody key={ticket.id}>
             <tr>
               <td>{ticket.id}</td>
-              <td>{ticket.subject}</td>
+
+              <td>
+                <Link to={`/ticket/${ticket.id}`}>{ticket.subject}</Link>
+              </td>
               <td>{ticket.status}</td>
               <td>{ticket.addedData}</td>
             </tr>

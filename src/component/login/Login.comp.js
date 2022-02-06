@@ -24,7 +24,7 @@ export const Login = ({
                 name='email'
                 value={email}
                 placeholder='Enter email'
-                requried
+                requried='true'
                 onChange={handleOnChange}
               />
             </Form.Group>
@@ -35,7 +35,7 @@ export const Login = ({
                 name='password'
                 value={password}
                 placeholder='Enter password'
-                required
+                required='true'
                 onChange={handleOnChange}
               />
             </Form.Group>

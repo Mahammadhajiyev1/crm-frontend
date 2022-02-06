@@ -1,21 +1,33 @@
 import "./App.css";
-import { DefaultLayout } from "./layout/DefaultLayout";
+// import { DefaultLayout } from "./layout/DefaultLayout";
 import { Dashboard } from "./pages/dashboard/Dashboard.page";
 import { Entry } from "./pages/entry/Entry.page";
 import { AddTicket } from "./pages/new-ticket/AddTicket.page";
 import { TicketLists } from "./pages/ticket-listing/TicketLists.page";
 import { Ticket } from "./pages/ticket/Ticket.page";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { PrivateRoute } from "./component/private-route/PrivateRoute.comp";
 
 function App() {
   return (
     <div className='App'>
-      {/* <Entry /> */}
-      <DefaultLayout>
-        {/* <Dashboard /> */}
-        {/* <AddTicket /> */}
-        {/* <TicketLists /> */}
-        <Ticket />
-      </DefaultLayout>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Entry />} />
+          <Route exact path='/' element={<PrivateRoute />}>
+            <Route path='/dashboard' element={<Dashboard />} />
+          </Route>
+          <Route exact path='/' element={<PrivateRoute />}>
+            <Route path='/add-ticket' element={<AddTicket />} />
+          </Route>
+          <Route exact path='/' element={<PrivateRoute />}>
+            <Route path='/tickets' element={<TicketLists />} />
+          </Route>
+          <Route exact path='/' element={<PrivateRoute />}>
+            <Route path='/ticket/:tId' element={<Ticket />} />
+          </Route>
+        </Routes>
+      </Router>
     </div>
   );
 }
