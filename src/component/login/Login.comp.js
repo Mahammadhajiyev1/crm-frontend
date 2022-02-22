@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Container,
@@ -19,6 +19,9 @@ export const Login = ({ formSwitcher }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading, isAuth, error } = useSelector((state) => state.login);
+  useEffect(() => {
+    sessionStorage.getItem("accessJWT") && navigate("/dashboard");
+  }, [isAuth, navigate]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

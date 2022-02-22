@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PrivateRoute } from "./component/private-route/PrivateRoute.comp";
 
 function App() {
+  // you have to solve problem with private route
+
   return (
     <div className='App'>
       <Router>
