@@ -13,6 +13,7 @@ import { loginFailed, loginPending, loginSuccess } from "./loginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../api/userApi";
 import { useNavigate } from "react-router-dom";
+import { getUserProfile } from "../../pages/dashboard/userAction";
 
 export const Login = ({ formSwitcher }) => {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ export const Login = ({ formSwitcher }) => {
         return dispatch(loginFailed(isAuth.message));
       }
       dispatch(loginSuccess());
+      dispatch(getUserProfile());
 
       navigate("/dashboard");
     } catch (error) {
