@@ -1,21 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
+import { loginFailed, loginPending, loginSuccess } from "./loginSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogin } from "../../api/userApi";
+import { useNavigate } from "react-router-dom";
 
-export const Login = ({
-  handleOnChange,
-  email,
-  password,
-  buttonBehaviour,
-  handleOnSubmit,
-  formSwitcher,
-}) => {
+export const Login = ({ formSwitcher }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLoading, isAuth, error } = useSelector((state) => state.login);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "email":
+        setEmail(value);
+
+        break;
+
+      case "password":
+        setPassword(value);
+        break;
+
+      default:
+        break;
+    }
+  };
+  // let buttonBehaviour = true;
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      // return (buttonBehaviour = false);
+      return alert("Please fill Email and Password correctly");
+    }
+    dispatch(loginPending());
+
+    try {
+      const isAuth = await userLogin({ email, password });
+      if (isAuth.status === "error") {
+        return dispatch(loginFailed(isAuth.message));
+      }
+      dispatch(loginSuccess());
+
+      navigate("/dashboard");
+    } catch (error) {
+      dispatch(loginFailed(error.message));
+    }
+  };
   return (
     <Container>
       <Row>
         <Col>
           <h1 className='text-info text-center'>Client Login</h1>
           <hr />
+          {error && <Alert variant='danger'>{error} </Alert>}
           <Form autoComplete='off' onSubmit={handleOnSubmit}>
             <Form.Group>
               <Form.Label>Email Adress</Form.Label>
@@ -24,7 +73,7 @@ export const Login = ({
                 name='email'
                 value={email}
                 placeholder='Enter email'
-                requried='true'
+                // requried='true'
                 onChange={handleOnChange}
               />
             </Form.Group>
@@ -35,12 +84,13 @@ export const Login = ({
                 name='password'
                 value={password}
                 placeholder='Enter password'
-                required='true'
+                // required='true'
                 onChange={handleOnChange}
               />
             </Form.Group>
             <hr />
-            <Button type='submit' /*disabled={buttonBehaviour}*/>Login</Button>
+            <Button type='submit'>Login</Button>
+            {isLoading && <Spinner variant='primary' animation='border' />}
           </Form>
           <hr />
         </Col>
@@ -57,9 +107,5 @@ export const Login = ({
 };
 
 Login.prototype = {
-  handleOnChange: PropTypes.func.isRequired,
-  handleOnSubmit: PropTypes.func.isRequired,
   formSwitcher: PropTypes.func.isRequired,
-  email: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
 };
