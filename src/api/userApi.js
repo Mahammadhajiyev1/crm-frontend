@@ -31,7 +31,7 @@ export const fetchUser = () => {
 
       const result = await axios.get(userProfileUrl, {
         headers: {
-          Authorization: accessJWT,
+          authorization: accessJWT,
         },
       });
 
@@ -47,7 +47,7 @@ export const userLogout = async () => {
   try {
     await axios.delete(userLogoutUrl, {
       headers: {
-        Authorization: sessionStorage.getItem("accessJWT"),
+        authorization: sessionStorage.getItem("accessJWT"),
       },
     });
   } catch (error) {
@@ -59,6 +59,7 @@ export const fetchNewAccessJWT = () => {
   return new Promise(async (resolve, reject) => {
     try {
       const { refreshJWT } = JSON.parse(localStorage.getItem("crmTicket"));
+      console.log(refreshJWT);
 
       if (!refreshJWT) {
         reject("Token not found!");
@@ -66,7 +67,7 @@ export const fetchNewAccessJWT = () => {
 
       const result = await axios.get(newAccessJWT, {
         headers: {
-          Authorization: refreshJWT,
+          authorization: refreshJWT,
         },
       });
 

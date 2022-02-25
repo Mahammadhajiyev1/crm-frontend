@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Container, Row, Col, Button, Spinner, Alert } from "react-bootstrap";
 import { BreadCrumb } from "../../component/breadcrumb/BreadCrumb.comp";
-import tickets from "../../assets/data/dummy-ticket.json";
 import { MessageHistory } from "../../component/message-history/MessageHistory.comp";
 import { UpdateTicket } from "../../component/update-ticket/UpdateTicket.comp";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  closeTicket,
+  fetchSingleTicket,
+} from "../ticket-listing/ticketsAction";
 
 // const ticket = tickets[0];
 
 export const Ticket = () => {
+  const { replyMessage } = useSelector((state) => state.tickets);
+  const dispatch = useDispatch();
   const { tId } = useParams();
-  const [message, setMessage] = useState("");
-  const [ticket, setTicket] = useState("");
+  const { isLoading, error, selectedTicket } = useSelector(
+    (state) => state.tickets
+  );
+
   useEffect(() => {
-    tickets.map((ticket) => ticket.id == tId && setTicket(ticket));
-  }, [message, tId]);
+    dispatch(fetchSingleTicket(tId));
+  }, [tId, dispatch]);
 
-  const handleOnChange = (e) => {
-    setMessage(e.target.value);
-  };
-
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    alert("sumbited");
-  };
   return (
     <Container>
       <Row>
@@ -32,28 +32,43 @@ export const Ticket = () => {
         </Col>
       </Row>
       <Row>
+        <Col>
+          {isLoading && <Spinner variant='primary' animation='border' />}
+          {error && <Alert variant='danger'>{error}</Alert>}
+          {replyMessage && <Alert variant='success'>{replyMessage}</Alert>}
+        </Col>
+      </Row>
+      <Row>
         <Col className='text-weight-bolder text-secondary'>
-          <div className='subject'>Subject: {ticket.subject}</div>
-          <div className='date'>sdfbn{ticket.addedData}</div>
-          <div className='status '> {ticket.status}</div>
+          <div className='subject'>Subject: {selectedTicket.subject}</div>
+          <div className='date'>
+            Date:{" "}
+            {selectedTicket.openAt &&
+              new Date(selectedTicket.openAt).toLocaleString()}
+          </div>
+          <div className='status '> Status: {selectedTicket.status}</div>
         </Col>
         <Col className='text-right'>
-          <Button variant='outline-info'>Close Ticket</Button>
+          <Button
+            variant='outline-info'
+            onClick={() => dispatch(closeTicket(tId))}
+            disabled={selectedTicket.status === "Closed"}
+          >
+            Close Ticket
+          </Button>
         </Col>
       </Row>
       <Row className='mt-4'>
         <Col>
-          {ticket.history && <MessageHistory message={ticket.history} />}
+          {selectedTicket.conversations && (
+            <MessageHistory message={selectedTicket.conversations} />
+          )}
         </Col>
       </Row>
       <hr />
       <Row className='mt-4'>
         <Col>
-          <UpdateTicket
-            message={message}
-            handleOnChange={handleOnChange}
-            handleOnSubmit={handleOnSubmit}
-          />
+          <UpdateTicket _id={tId} />
         </Col>
       </Row>
     </Container>

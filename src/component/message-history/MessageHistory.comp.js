@@ -8,7 +8,9 @@ export const MessageHistory = ({ message }) => {
     <div key={i} className='message-history mt-3'>
       <div className='send font-weight-bold text-secondary'>
         <div className='sender'>{row.sender}</div>
-        <div className='date'>{row.date}</div>
+        <div className='date'>
+          {row.messageAddedAt && new Date(row.messageAddedAt).toLocaleString()}
+        </div>
       </div>
       <div className='message'>{row.message}</div>
     </div>
