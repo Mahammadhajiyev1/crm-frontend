@@ -13,12 +13,10 @@ import {
 // const ticket = tickets[0];
 
 export const Ticket = () => {
-  const { replyMessage } = useSelector((state) => state.tickets);
   const dispatch = useDispatch();
   const { tId } = useParams();
-  const { isLoading, error, selectedTicket } = useSelector(
-    (state) => state.tickets
-  );
+  const { isLoading, error, selectedTicket, replyTicketError, replyMessage } =
+    useSelector((state) => state.tickets);
 
   useEffect(() => {
     dispatch(fetchSingleTicket(tId));
@@ -35,6 +33,9 @@ export const Ticket = () => {
         <Col>
           {isLoading && <Spinner variant='primary' animation='border' />}
           {error && <Alert variant='danger'>{error}</Alert>}
+          {replyTicketError && (
+            <Alert variant='danger'>{replyTicketError}</Alert>
+          )}
           {replyMessage && <Alert variant='success'>{replyMessage}</Alert>}
         </Col>
       </Row>
