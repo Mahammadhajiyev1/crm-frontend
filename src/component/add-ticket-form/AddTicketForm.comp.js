@@ -5,6 +5,7 @@ import "./AddTicketForm.style.css";
 import { shortText } from "../../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { openNewTicket } from "./addTicketAction";
+import { resetSuccessMessage } from "./addTicketSlicer";
 
 const initialFormData = {
   subject: "",
@@ -24,7 +25,11 @@ export const AddTicketForm = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(initialFormData);
   const [formDataError, setFormDataError] = useState(initialFormError);
-  useEffect(() => {}, [formData, formDataError]);
+  useEffect(() => {
+    return () => {
+      successMessage && dispatch(resetSuccessMessage());
+    };
+  }, [formData, formDataError, dispatch, successMessage]);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormData({

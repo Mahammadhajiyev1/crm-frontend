@@ -9,6 +9,7 @@ import {
   closeTicket,
   fetchSingleTicket,
 } from "../ticket-listing/ticketsAction";
+import { resetResponseMessage } from "../ticket-listing/ticketsSlice";
 
 // const ticket = tickets[0];
 
@@ -20,7 +21,11 @@ export const Ticket = () => {
 
   useEffect(() => {
     dispatch(fetchSingleTicket(tId));
-  }, [tId, dispatch]);
+
+    return () => {
+      (replyTicketError || replyMessage) && dispatch(resetResponseMessage());
+    };
+  }, [tId, dispatch, replyMessage, replyTicketError]);
 
   return (
     <Container>

@@ -7,6 +7,7 @@ import { TicketLists } from "./pages/ticket-listing/TicketLists.page";
 import { Ticket } from "./pages/ticket/Ticket.page";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PrivateRoute } from "./component/private-route/PrivateRoute.comp";
+import { Registration } from "./pages/registration/Registration.page";
 
 function App() {
   // you have to solve problem with private route
@@ -16,6 +17,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Entry />} />
+          <Route path='/registration' element={<Registration />} />
           <Route exact path='/' element={<PrivateRoute />}>
             <Route path='/dashboard' element={<Dashboard />} />
           </Route>

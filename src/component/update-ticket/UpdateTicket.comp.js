@@ -5,6 +5,7 @@ import { replyOnTicket } from "../../pages/ticket-listing/ticketsAction";
 import PropType from "prop-types";
 
 export const UpdateTicket = ({ _id }) => {
+  const { selectedTicket } = useSelector((state) => state.tickets);
   const dispatch = useDispatch();
   const [message, setMessage] = useState("");
   const handleOnChange = (e) => {
@@ -39,7 +40,11 @@ export const UpdateTicket = ({ _id }) => {
           name='detail'
         />
         <div className='text-right mt-3 mb-3'>
-          <Button variant='info' type='submit'>
+          <Button
+            variant='info'
+            type='submit'
+            disabled={selectedTicket.status === "Closed"}
+          >
             Reply
           </Button>
         </div>

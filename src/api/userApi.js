@@ -7,6 +7,7 @@ export const userLogin = (formData) => {
   return new Promise(async (resolve, reject) => {
     try {
       const result = await axios.post(loginUrl, formData);
+      resolve(result.data);
       if (result.data.status === "success") {
         sessionStorage.setItem("accessJWT", result.data.accessJWT);
         localStorage.setItem(
@@ -14,7 +15,6 @@ export const userLogin = (formData) => {
           JSON.stringify({ refreshJWT: result.data.refreshJWT })
         );
       }
-      resolve(result.data);
     } catch (error) {
       reject(error);
     }
@@ -70,6 +70,8 @@ export const fetchNewAccessJWT = () => {
           authorization: refreshJWT,
         },
       });
+
+      console.log(result.data);
 
       if (result.data.status === "success") {
         sessionStorage.setItem("accessJWT", result.data.accessJWT);
