@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Button, Col, Container, Form, FormText, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  FormText,
+  Row,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { userRegistration } from "./userRegistrationAction";
 
 const initialState = {
-  name: "",
-  phone: "",
-  email: "",
-  company: "",
-  address: "",
-  password: "",
-  confirmPassword: "",
+  name: "Mahammad Hajiyev",
+  phone: "994502222222",
+  email: "email@mail.com",
+  company: "Mahacmmc",
+  address: "S.vezirov street",
+  password: "Password1@",
+  confirmPassword: "Password1@",
 };
 
 const passwordVerificationError = {
@@ -22,6 +33,10 @@ const passwordVerificationError = {
 };
 
 const RegistrationForm = () => {
+  const { isLoading, status, message } = useSelector(
+    (state) => state.registration
+  );
+  const dispatch = useDispatch();
   const [newUser, setNewUser] = useState(initialState);
   const [passwordError, setPasswordError] = useState(passwordVerificationError);
 
@@ -57,6 +72,7 @@ const RegistrationForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    dispatch(userRegistration(newUser));
   };
 
   return (
@@ -67,6 +83,15 @@ const RegistrationForm = () => {
         </Col>
       </Row>
       <hr />
+      <Row>
+        <Col>
+          {message && (
+            <Alert variant={status === "success" ? "success" : "danger"}>
+              {message}
+            </Alert>
+          )}
+        </Col>
+      </Row>
       <Row>
         <Col>
           <Form onSubmit={handleOnSubmit}>
@@ -193,6 +218,7 @@ const RegistrationForm = () => {
             >
               Submit
             </Button>
+            {isLoading && <Spinner variant='info' animation='border' />}
           </Form>
         </Col>
       </Row>

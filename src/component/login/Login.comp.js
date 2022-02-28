@@ -72,13 +72,13 @@ export const Login = ({ formSwitcher }) => {
           {error && <Alert variant='danger'>{error} </Alert>}
           <Form autoComplete='off' onSubmit={handleOnSubmit}>
             <Form.Group>
-              <Form.Label>Email Adress</Form.Label>
+              <Form.Label>Email Address</Form.Label>
               <Form.Control
                 type='email'
                 name='email'
                 value={email}
                 placeholder='Enter email'
-                // requried='true'
+                required='true'
                 onChange={handleOnChange}
               />
             </Form.Group>
@@ -89,7 +89,7 @@ export const Login = ({ formSwitcher }) => {
                 name='password'
                 value={password}
                 placeholder='Enter password'
-                // required='true'
+                required='true'
                 onChange={handleOnChange}
               />
             </Form.Group>
