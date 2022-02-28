@@ -8,6 +8,7 @@ import { Ticket } from "./pages/ticket/Ticket.page";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PrivateRoute } from "./component/private-route/PrivateRoute.comp";
 import { Registration } from "./pages/registration/Registration.page";
+import { UserVerification } from "./pages/user-verification/UserVerification.page";
 
 function App() {
   // you have to solve problem with private route
@@ -18,6 +19,10 @@ function App() {
         <Routes>
           <Route path='/' element={<Entry />} />
           <Route path='/registration' element={<Registration />} />
+          <Route
+            path='/verification/:_id/:email'
+            element={<UserVerification />}
+          />
           <Route exact path='/' element={<PrivateRoute />}>
             <Route path='/dashboard' element={<Dashboard />} />
           </Route>

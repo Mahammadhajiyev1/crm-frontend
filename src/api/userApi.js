@@ -3,6 +3,7 @@ const loginUrl = "http://localhost:3001/v1/user/login";
 const userProfileUrl = "http://localhost:3001/v1/user";
 const userLogoutUrl = "http://localhost:3001/v1/user/logout";
 const newAccessJWT = "http://localhost:3001/v1/tokens";
+const userVerificationUrl = "http://localhost:3001/v1/user/verify";
 
 export const newUserRegistration = (formData) => {
   return new Promise(async (resolve, reject) => {
@@ -14,6 +15,19 @@ export const newUserRegistration = (formData) => {
       }
     } catch (error) {
       reject(error);
+    }
+  });
+};
+export const newUserRegistrationVerification = (formData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await axios.patch(userVerificationUrl, formData);
+      resolve(result.data);
+      if (result.data.status === "success") {
+        resolve(result.data);
+      }
+    } catch (error) {
+      reject({ status: "error", message: error.message });
     }
   });
 };

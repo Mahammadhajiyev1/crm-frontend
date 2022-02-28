@@ -78,7 +78,7 @@ export const Login = ({ formSwitcher }) => {
                 name='email'
                 value={email}
                 placeholder='Enter email'
-                required='true'
+                required={true}
                 onChange={handleOnChange}
               />
             </Form.Group>
@@ -89,7 +89,7 @@ export const Login = ({ formSwitcher }) => {
                 name='password'
                 value={password}
                 placeholder='Enter password'
-                required='true'
+                required={true}
                 onChange={handleOnChange}
               />
             </Form.Group>

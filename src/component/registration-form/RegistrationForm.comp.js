@@ -13,13 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { userRegistration } from "./userRegistrationAction";
 
 const initialState = {
-  name: "Mahammad Hajiyev",
-  phone: "994502222222",
-  email: "email@mail.com",
-  company: "Mahacmmc",
-  address: "S.vezirov street",
-  password: "Password1@",
-  confirmPassword: "Password1@",
+  name: "",
+  phone: "",
+  email: "",
+  company: "",
+  address: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const passwordVerificationError = {
@@ -72,7 +72,9 @@ const RegistrationForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    dispatch(userRegistration(newUser));
+    const { name, phone, email, company, address, password } = newUser;
+    const newRegistration = { name, phone, email, company, address, password };
+    dispatch(userRegistration(newRegistration));
   };
 
   return (
