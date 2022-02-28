@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PrivateRoute } from "./component/private-route/PrivateRoute.comp";
 import { Registration } from "./pages/registration/Registration.page";
 import { UserVerification } from "./pages/user-verification/UserVerification.page";
+import { PasswordOtpForm } from "./pages/password-reset/PasswordOtpForm.page";
 
 function App() {
   // you have to solve problem with private route
@@ -18,6 +19,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Entry />} />
+          <Route path='/password-reset' element={<PasswordOtpForm />} />
           <Route path='/registration' element={<Registration />} />
           <Route
             path='/verification/:_id/:email'

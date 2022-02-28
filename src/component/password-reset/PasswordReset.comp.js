@@ -1,21 +1,42 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { sendPasswordResetOtp } from "./passwordResetAction";
 
-export const PasswordReset = ({
-  handleOnChange,
-  email,
-  buttonBehaviour,
-  handleOnResetSubmit,
-  formSwitcher,
-}) => {
+export const PasswordReset = () => {
+  const { isLoading, status, message } = useSelector((state) => state.password);
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    dispatch(sendPasswordResetOtp(email));
+    //TODO call api to submit the form
+    // console.log(email);
+  };
+  const handleOnChange = (e) => {
+    setEmail(e.target.value);
+  };
   return (
     <Container>
       <Row>
         <Col>
           <h1 className='text-info text-center'>Reset Password</h1>
           <hr />
-          <Form autoComplete='off' onSubmit={handleOnResetSubmit}>
+          {message && (
+            <Alert variant={status === "success" ? "success" : "danger"}>
+              {message}
+            </Alert>
+          )}
+          {isLoading && <Spinner variant='primary' animation='border' />}
+          <Form autoComplete='off' onSubmit={handleOnSubmit}>
             <Form.Group>
               <Form.Label>Email Adress</Form.Label>
               <Form.Control
@@ -23,31 +44,22 @@ export const PasswordReset = ({
                 name='email'
                 value={email}
                 placeholder='Enter email'
-                requried
+                required={true}
                 onChange={handleOnChange}
               />
             </Form.Group>
 
             <hr />
-            <Button type='submit' /*disabled={buttonBehaviour}*/>Reset</Button>
+            <Button type='submit'>Reset</Button>
           </Form>
           <hr />
         </Col>
       </Row>
       <Row>
         <Col>
-          <a href='#!' onClick={() => formSwitcher("login")}>
-            Login now
-          </a>
+          <a href='/'>Login now</a>
         </Col>
       </Row>
     </Container>
   );
-};
-
-PasswordReset.prototype = {
-  handleOnChange: PropTypes.func.isRequired,
-  handleOnResetSubmit: PropTypes.func.isRequired,
-  formSwitcher: PropTypes.func.isRequired,
-  email: PropTypes.string.isRequired,
 };
